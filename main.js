@@ -47,7 +47,7 @@ module.exports.loop = function () {
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
-            if(upgrader.length < 8) {
+            if(upgrader.length < 3) {
                 var newName = 'Upgrader' + Game.time;
                 console.log('Spawning new upgrader: ' + newName);
                 Game.spawns['home1'].spawnCreep([WORK,CARRY,MOVE], newName, 
@@ -70,7 +70,7 @@ module.exports.loop = function () {
             var neededBuilders = 1;
             if(harvesters[0].room.find(FIND_CONSTRUCTION_SITES) != ''){
                 //有建造点
-                neededBuilders = 3;
+                neededBuilders = 6;
             }
             else{
                 neededBuilders = 1;
