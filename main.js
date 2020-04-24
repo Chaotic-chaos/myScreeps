@@ -2,8 +2,13 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var constructionTower = require('construction.tower');
+//日志系统
+var sysLog = require('./sys.log');
 
 module.exports.loop = function () {
+
+    //新的一天
+    sysLog.newDay();
     
     for(var name in Memory.creeps){
         if(!Game.creeps[name]){
@@ -14,22 +19,28 @@ module.exports.loop = function () {
     
     //统计劳作型劳工
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    console.log('Harvester: ' + harvesters.length);
+    //打印当前的劳作型劳工数目
+    sysLog.currentCreeps('Harvester', harvesters.length);
 
     //统计升级型劳工
     var upgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    console.log('Upgrader: ' + upgrader.length);
+    //打印当前的升级型劳工数目
+    sysLog.currentCreeps('Upgrader', upgrader.length);
 
     //统计建造型劳工
     var builder = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    console.log('Builder: ' + builder.length);
+    //打印当前的建造型劳工数目
+    sysLog.currentCreeps('Builder', builder.length);
 
     //自动创建劳作型劳工
-    if(harvesters.length < 8) {
+    if(harvesters.length < 5) {
         var newName = 'Harvester' + Game.time;
-        console.log('Spawning new harvester: ' + newName);
-        Game.spawns['home1'].spawnCreep([WORK,CARRY,MOVE], newName, 
-            {memory: {role: 'harvester'}});        
+        // console.log('Spawning new harvester: ' + newName);
+        excLine = '生产劳作型矿工：' + newName;
+        resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+            {memory: {role: 'harvester'}});
+        //输出刚刚执行的语句的日志记录到控制台
+        sysLog.spawnWorkStatus('home1', excLine, resCode);
     }
     
     // if(Game.spawns['home1'].spawning) { 
@@ -49,9 +60,12 @@ module.exports.loop = function () {
         //自动创建升级型型劳工
             if(upgrader.length < 3) {
                 var newName = 'Upgrader' + Game.time;
-                console.log('Spawning new upgrader: ' + newName);
-                Game.spawns['home1'].spawnCreep([WORK,CARRY,MOVE], newName, 
+                // console.log('Spawning new upgrader: ' + newName);
+                excLine = '生产升级型矿工：' + newName;
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
                     {memory: {role: 'upgrader'}});        
+                //输出刚刚执行的语句的日志记录到控制台
+                sysLog.spawnWorkStatus('home1', excLine, resCode);
             }
             
             // if(Game.spawns['home1'].spawning) { 
@@ -70,18 +84,21 @@ module.exports.loop = function () {
             var neededBuilders = 1;
             if(harvesters[0].room.find(FIND_CONSTRUCTION_SITES) != ''){
                 //有建造点
-                neededBuilders = 6;
+                neededBuilders = 2;
             }
             else{
                 neededBuilders = 1;
             }
-            console.log('Needed Builders: ' + neededBuilders);
+            // console.log('Needed Builders: ' + neededBuilders);
             //自动创建建造型劳工
             if(builder.length < neededBuilders) {
                 var newName = 'Builder' + Game.time;
-                console.log('Spawning new builder: ' + newName);
-                Game.spawns['home1'].spawnCreep([WORK,CARRY,MOVE], newName, 
-                    {memory: {role: 'builder'}});        
+                // console.log('Spawning new builder: ' + newName);
+                excLine = '生产建造型矿工：' + newName;
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+                    {memory: {role: 'builder'}});
+                //输出刚刚执行的语句的日志记录到控制台
+                sysLog.spawnWorkStatus('home1', excLine, resCode);        
             }
             
             // if(Game.spawns['home1'].spawning) { 
