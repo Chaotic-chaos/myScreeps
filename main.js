@@ -33,7 +33,7 @@ module.exports.loop = function () {
     sysLog.currentCreeps('Builder', builder.length);
 
     //自动创建劳作型劳工
-    if(harvesters.length < 5) {
+    if(harvesters.length < 4) {
         var newName = 'Harvester' + Game.time;
         // console.log('Spawning new harvester: ' + newName);
         excLine = '生产劳作型矿工：' + newName;
@@ -54,11 +54,11 @@ module.exports.loop = function () {
     //调整为最后统一输出当前正在创建劳工的情况
 
     //只有在劳作型劳工足够的情况下再创建其他劳工
-    if(harvesters.length >= 5){
+    if(harvesters.length >= 4){
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
-            if(upgrader.length < 3) {
+            if(upgrader.length < 4) {
                 var newName = 'Upgrader' + Game.time;
                 // console.log('Spawning new upgrader: ' + newName);
                 excLine = '生产升级型矿工：' + newName;
@@ -80,18 +80,9 @@ module.exports.loop = function () {
         // }
         // else{
 
-            //判断一下当前有没有建造点（constructionSite)，动态决定需要的builder最大值
-            var neededBuilders = 1;
-            if(harvesters[0].room.find(FIND_CONSTRUCTION_SITES) != ''){
-                //有建造点
-                neededBuilders = 2;
-            }
-            else{
-                neededBuilders = 1;
-            }
             // console.log('Needed Builders: ' + neededBuilders);
             //自动创建建造型劳工
-            if(builder.length < neededBuilders) {
+            if(builder.length < 2) {
                 var newName = 'Builder' + Game.time;
                 // console.log('Spawning new builder: ' + newName);
                 excLine = '生产建造型矿工：' + newName;
@@ -152,7 +143,7 @@ module.exports.loop = function () {
     //调用
     if(tower){
         constructionTower.attack(tower);
-        //console.log(tower)
-        constructionTower.repair(tower);
+        //暂时停止防御塔的维护功能，保存能量
+        // constructionTower.repair(tower);
     }
 }
