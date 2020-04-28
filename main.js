@@ -37,7 +37,7 @@ module.exports.loop = function () {
         var newName = 'Harvester' + Game.time;
         // console.log('Spawning new harvester: ' + newName);
         excLine = '生产劳作型矿工：' + newName;
-        resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+        resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
             {memory: {role: 'harvester'}});
         //输出刚刚执行的语句的日志记录到控制台
         sysLog.spawnWorkStatus('home1', excLine, resCode);
@@ -62,7 +62,7 @@ module.exports.loop = function () {
                 var newName = 'Upgrader' + Game.time;
                 // console.log('Spawning new upgrader: ' + newName);
                 excLine = '生产升级型矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
                     {memory: {role: 'upgrader'}});        
                 //输出刚刚执行的语句的日志记录到控制台
                 sysLog.spawnWorkStatus('home1', excLine, resCode);
@@ -86,7 +86,7 @@ module.exports.loop = function () {
                 var newName = 'Builder' + Game.time;
                 // console.log('Spawning new builder: ' + newName);
                 excLine = '生产建造型矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
                     {memory: {role: 'builder'}});
                 //输出刚刚执行的语句的日志记录到控制台
                 sysLog.spawnWorkStatus('home1', excLine, resCode);        
@@ -143,7 +143,6 @@ module.exports.loop = function () {
     //调用
     if(tower){
         constructionTower.attack(tower);
-        //暂时停止防御塔的维护功能，保存能量
-        // constructionTower.repair(tower);
+        constructionTower.repair(tower);
     }
 }

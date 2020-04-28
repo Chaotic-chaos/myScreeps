@@ -11,7 +11,7 @@ var constructionTower = {
         var hostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(hostile){
             tower.attack(hostile);
-            tower.room.visual.text('⚔️ Attacking!', 35, 17);
+            tower.room.visual.text('⚔️ Attacking!', tower.pos.x+3, tower.pos.y);
         }
 
     },
@@ -24,7 +24,7 @@ var constructionTower = {
             });
             if(damage){
                 tower.repair(damage);
-                tower.room.visual.text('🧰 Repairing!', 35, 17);
+                tower.room.visual.text('🧰 Repairing!', tower.pos.x+2, tower.pos.y);
             }
         }
 
