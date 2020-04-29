@@ -22,6 +22,7 @@ var roleHarvester = {
             }
         }
         else {
+            //给spawn, extension, tower充能
             var targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
@@ -33,6 +34,20 @@ var roleHarvester = {
                 if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                     creep.say('Storing');
+                }
+            }
+            else{
+                //给contaioner充能
+                var container = creep.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_CONTAINER);
+                    }
+                });
+                if(container){
+                    if(creep.transfer(container[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                        creep.moveTo(container[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                        creep.say('Containing');
+                    }
                 }
             }
         }
