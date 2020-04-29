@@ -21,15 +21,27 @@ var roleBuilder = {
 			}
 			else{
 				//寻找当前房间的所有需要维护的建筑，并维护之
-				var damage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-					filter: (structure) => structure.hits < structure.hitsMax
-				});
-				if(damage){
-					if(creep.repair(damage) == ERR_NOT_IN_RANGE){
-						creep.say('Repairing');
-						creep.moveTo(damage, {visualizePathStyle: {stroke: '#00ff00'}});
+				//暂时废弃功能，维护工作交由tower，解放builder
+				// var damage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+				// 	filter: (structure) => structure.hits < structure.hitsMax
+				// });
+				// if(damage){
+				// 	if(creep.repair(damage) == ERR_NOT_IN_RANGE){
+				// 		creep.say('Repairing');
+				// 		creep.moveTo(damage, {visualizePathStyle: {stroke: '#00ff00'}});
+				// 	}
+				// }
+				// else{
+					//当前房间没有建造点、维护建筑，去给container充能
+					var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure => structure.structureType == STRUCTURE_CONTAINER)});
+					if(container.store.getFreeCapacity() > 0){
+						//存在container且有空间存储
+						if(creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+							creep.moveTo(container);
+							creep.say('Containing');
+						}
 					}
-				}
+				// }
 			}
 	    }
 	    else {

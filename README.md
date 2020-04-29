@@ -37,4 +37,10 @@
 2. newFeature：增加矿工行动时的信息提示
 3. newFeature：增加防御塔工作时的信息提示
 
+## 2020.04.29更新
+1. newFeature：增加container的充能工作（由builder完成）
+2. newFeature：暂停了builder的维护工作，全部交由tower负责
+3. bugFix：harvester采矿位置固定为同一个矿点，调整采矿分配
+4. waitingToFinish：为container专门分配充能角色，让upgrader工作更加专心（待验证可行性）
+
 ## To be Continue...

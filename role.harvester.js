@@ -15,7 +15,9 @@ var roleHarvester = {
             creep.say('🚧 stroing');
         }
 	    if(!creep.memory.storing) {
-            var sources = Game.getObjectById(creep.pos.findClosestByRange(FIND_SOURCES).id);
+            //固定harvester去左边的矿挖，暂时方案
+            // var sources = Game.getObjectById(creep.pos.findClosestByRange(FIND_SOURCES).id);
+            var sources = Game.getObjectById('ba3c0774d80c3a8');
             if(creep.harvest(sources) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources, {visualizePathStyle: {stroke: '#ffffff'}});
                 creep.say('Harvestering');

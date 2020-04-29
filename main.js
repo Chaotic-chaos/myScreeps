@@ -33,7 +33,7 @@ module.exports.loop = function () {
     sysLog.currentCreeps('Builder', builder.length);
 
     //自动创建劳作型劳工
-    if(harvesters.length < 4) {
+    if(harvesters.length < 3) {
         var newName = 'Harvester' + Game.time;
         // console.log('Spawning new harvester: ' + newName);
         excLine = '生产劳作型矿工：' + newName;
@@ -58,7 +58,7 @@ module.exports.loop = function () {
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
-            if(upgrader.length < 4) {
+            if(upgrader.length < 2) {
                 var newName = 'Upgrader' + Game.time;
                 // console.log('Spawning new upgrader: ' + newName);
                 excLine = '生产升级型矿工：' + newName;
