@@ -54,7 +54,7 @@ module.exports.loop = function () {
     //调整为最后统一输出当前正在创建劳工的情况
 
     //只有在劳作型劳工足够的情况下再创建其他劳工
-    if(harvesters.length >= 4){
+    if(harvesters.length >= 3){
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
