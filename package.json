@@ -1,0 +1,28 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "- 一份对游戏`screeps`的代码备份仓库",
+  "main": "main.js",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "screeps-multimeter": "^1.8.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "multimeter"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chaotic-chaos/myScreeps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chaotic-chaos/myScreeps/issues"
+  },
+  "homepage": "https://github.com/Chaotic-chaos/myScreeps#readme"
+}

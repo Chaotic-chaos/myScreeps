@@ -4,8 +4,13 @@ var roleBuilder = require('role.builder');
 var constructionTower = require('construction.tower');
 //日志系统
 var sysLog = require('./sys.log');
+//监控数据大盘
+//失败，暂时搁置，等待后续研究
+var statusMonitor = require('sys.dataMonitor');
 
 module.exports.loop = function () {
+    //测试紧急提醒功能
+    // console.log(sysLog.criticalAlert('111', '111'));
 
     //新的一天
     sysLog.newDay();

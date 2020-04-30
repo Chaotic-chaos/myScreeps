@@ -50,6 +50,18 @@ var sysLog = {
         */
        console.log('又是新的一天，祝搬砖快乐！');
     },
+
+    //函数4： 紧急报警
+    criticalAlert: function(title, description){
+        //创建http对象
+        var httpRequest = new XMLHttpRequest();
+        //打开链接
+        httpRequest.open('POST', 'https://sc.ftqq.com/SCU44734Tc79e0c4d145033cf8d45de746707e1955c6784f0a55fa.send', ture);
+        //设置请求头
+        httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        //发送请求
+        httpRequest.send('text=Test1&desp=Test1');
+    }
 }
 
 module.exports = sysLog;
