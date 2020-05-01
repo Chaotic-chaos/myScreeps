@@ -43,4 +43,9 @@
 3. bugFix：harvester采矿位置固定为同一个矿点，调整采矿分配
 4. waitingToFinish：为container专门分配充能角色，让upgrader工作更加专心（待验证可行性）
 
+## 2020.05.01更新
+1. newFeature：增加了一个新的角色模块containerTransfer，负责转运能量（mine -> container）
+2. bugFix：修改upgrader的功能部件，使之尽可能多的work，少carry, 少move
+3. newFeature：增设角色distributor，想法上是守在link旁边进行远程传送能量的分发存储工作，待完善
+
 ## To be Continue...

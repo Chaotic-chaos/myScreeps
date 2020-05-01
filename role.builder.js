@@ -38,7 +38,7 @@ var roleBuilder = {
 						//存在container且有空间存储
 						if(creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 							creep.moveTo(container);
-							creep.say('Containing');
+							creep.say('🚚');
 						}
 					}
 				// }

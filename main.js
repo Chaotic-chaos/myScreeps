@@ -1,6 +1,7 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleContainerTransfer = require('role.containerTransfer');
 var constructionTower = require('construction.tower');
 //日志系统
 var sysLog = require('./sys.log');
@@ -37,6 +38,11 @@ module.exports.loop = function () {
     //打印当前的建造型劳工数目
     sysLog.currentCreeps('Builder', builder.length);
 
+    //统计转运型（container）劳工
+    var containerTransfer = _.filter(Game.creeps, (creep) => creep.memory.role == 'containerTransfer');
+    //打印当前的转运型（container）劳工数目
+    sysLog.currentCreeps('containerTransfer', containerTransfer.length);
+
     //自动创建劳作型劳工
     if(harvesters.length < 3) {
         var newName = 'Harvester' + Game.time;
@@ -72,6 +78,16 @@ module.exports.loop = function () {
                 //输出刚刚执行的语句的日志记录到控制台
                 sysLog.spawnWorkStatus('home1', excLine, resCode);
             }
+            //自动创建转运型（container）劳工
+            if(containerTransfer.length < 2) {
+                var newName = 'containerTransfer' + Game.time;
+                // console.log('Spawning new upgrader: ' + newName);
+                excLine = '生产转运型（container）矿工：' + newName;
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+                    {memory: {role: 'containerTransfer'}});        
+                //输出刚刚执行的语句的日志记录到控制台
+                sysLog.spawnWorkStatus('home1', excLine, resCode);
+            }
             
             // if(Game.spawns['home1'].spawning) { 
             //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
@@ -91,7 +107,7 @@ module.exports.loop = function () {
                 var newName = 'Builder' + Game.time;
                 // console.log('Spawning new builder: ' + newName);
                 excLine = '生产建造型矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
+                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK, CARRY,CARRY,CARRY,MOVE,MOVE], newName, 
                     {memory: {role: 'builder'}});
                 //输出刚刚执行的语句的日志记录到控制台
                 sysLog.spawnWorkStatus('home1', excLine, resCode);        
@@ -118,7 +134,7 @@ module.exports.loop = function () {
     }
 
 
-    //统计管理劳工当前工作
+    //统一管理劳工当前工作
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -129,6 +145,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'builder'){
             roleBuilder.run(creep);
+        }
+        if(creep.memory.role == 'containerTransfer'){
+            roleContainerTransfer.run(creep, 'ef990774d80108c');
         }
     }
 
