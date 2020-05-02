@@ -13,7 +13,7 @@
 
 # 初版所具备的功能
 1. harvester自动寻找建筑物进行能量补充
-2. upgrader自动寻找controller进行升级，~~劳工数保持在10-
+2. upgrader自动寻找controller进行升级，~~劳工数保持在10-~~
 3. builder自动寻找construction site进行建筑建造
 4. 防御塔自动寻找攻击目标进行攻击（消耗能量）
 5. 防御塔自动寻找需要修理的目标进行修理（消耗能量）
