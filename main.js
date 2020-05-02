@@ -2,7 +2,9 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleContainerTransfer = require('role.containerTransfer');
+var roleDistributor = require('role.distributor');
 var constructionTower = require('construction.tower');
+var constructionLink = require('construction.link');
 //日志系统
 var sysLog = require('./sys.log');
 //监控数据大盘
@@ -15,14 +17,14 @@ module.exports.loop = function () {
 
     //新的一天
     sysLog.newDay();
-    
-    for(var name in Memory.creeps){
-        if(!Game.creeps[name]){
+
+    for (var name in Memory.creeps) {
+        if (!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-exiting creeps: ' + name);
         }
     }
-    
+
     //统计劳作型劳工
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     //打印当前的劳作型劳工数目
@@ -43,17 +45,22 @@ module.exports.loop = function () {
     //打印当前的转运型（container）劳工数目
     sysLog.currentCreeps('containerTransfer', containerTransfer.length);
 
+    //统计分发型劳工
+    var distributor = _.filter(Game.creeps, (creep) => creep.memory.role == 'distributor');
+    //打印当前的转运型（container）劳工数目
+    sysLog.currentCreeps('distributor', distributor.length);
+
     //自动创建劳作型劳工
-    if(harvesters.length < 3) {
+    if (harvesters.length < 2) {
         var newName = 'Harvester' + Game.time;
         // console.log('Spawning new harvester: ' + newName);
         excLine = '生产劳作型矿工：' + newName;
-        resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
-            {memory: {role: 'harvester'}});
+        resCode = Game.spawns['home1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE], newName,
+            { memory: { role: 'harvester' } });
         //输出刚刚执行的语句的日志记录到控制台
         sysLog.spawnWorkStatus('home1', excLine, resCode);
     }
-    
+
     // if(Game.spawns['home1'].spawning) { 
     //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
     //     Game.spawns['home1'].room.visual.text(
@@ -65,108 +72,127 @@ module.exports.loop = function () {
     //调整为最后统一输出当前正在创建劳工的情况
 
     //只有在劳作型劳工足够的情况下再创建其他劳工
-    if(harvesters.length >= 3){
+    if (harvesters.length >= 2) {
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
-            if(upgrader.length < 2) {
-                var newName = 'Upgrader' + Game.time;
-                // console.log('Spawning new upgrader: ' + newName);
-                excLine = '生产升级型矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
-                    {memory: {role: 'upgrader'}});        
-                //输出刚刚执行的语句的日志记录到控制台
-                sysLog.spawnWorkStatus('home1', excLine, resCode);
-            }
-            //自动创建转运型（container）劳工
-            if(containerTransfer.length < 2) {
-                var newName = 'containerTransfer' + Game.time;
-                // console.log('Spawning new upgrader: ' + newName);
-                excLine = '生产转运型（container）矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName, 
-                    {memory: {role: 'containerTransfer'}});        
-                //输出刚刚执行的语句的日志记录到控制台
-                sysLog.spawnWorkStatus('home1', excLine, resCode);
-            }
-            
-            // if(Game.spawns['home1'].spawning) { 
-            //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
-            //     Game.spawns['home1'].room.visual.text(
-            //         '🛠️' + spawningCreep.memory.role,
-            //         Game.spawns['home1'].pos.x + 1, 
-            //         Game.spawns['home1'].pos.y, 
-            //         {align: 'left', opacity: 0.8});
-            // }
-            //调整为最后统一输出当前正在创建劳工的情况
+        if (upgrader.length < 2) {
+            var newName = 'Upgrader' + Game.time;
+            // console.log('Spawning new upgrader: ' + newName);
+            excLine = '生产升级型矿工：' + newName;
+            resCode = Game.spawns['home1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE], newName,
+                { memory: { role: 'upgrader' } });
+            //输出刚刚执行的语句的日志记录到控制台
+            sysLog.spawnWorkStatus('home1', excLine, resCode);
+        }
+        //自动创建转运型（container）劳工
+        if (containerTransfer.length < 2) {
+            var newName = 'containerTransfer' + Game.time;
+            // console.log('Spawning new upgrader: ' + newName);
+            excLine = '生产转运型（container）矿工：' + newName;
+            resCode = Game.spawns['home1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'containerTransfer' } });
+            //输出刚刚执行的语句的日志记录到控制台
+            sysLog.spawnWorkStatus('home1', excLine, resCode);
+        }
+
+        //自动创建分发型劳工
+        if (distributor.length < 2) {
+            var newName = 'Distributor' + Game.time;
+            // console.log('Spawning new upgrader: ' + newName);
+            excLine = '生产分发型矿工：' + newName;
+            resCode = Game.spawns['home1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'distributor' } });
+            //输出刚刚执行的语句的日志记录到控制台
+            sysLog.spawnWorkStatus('home1', excLine, resCode);
+        }
+
+        // if(Game.spawns['home1'].spawning) { 
+        //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
+        //     Game.spawns['home1'].room.visual.text(
+        //         '🛠️' + spawningCreep.memory.role,
+        //         Game.spawns['home1'].pos.x + 1, 
+        //         Game.spawns['home1'].pos.y, 
+        //         {align: 'left', opacity: 0.8});
+        // }
+        //调整为最后统一输出当前正在创建劳工的情况
         // }
         // else{
 
-            // console.log('Needed Builders: ' + neededBuilders);
-            //自动创建建造型劳工
-            if(builder.length < 2) {
-                var newName = 'Builder' + Game.time;
-                // console.log('Spawning new builder: ' + newName);
-                excLine = '生产建造型矿工：' + newName;
-                resCode = Game.spawns['home1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK, CARRY,CARRY,CARRY,MOVE,MOVE], newName, 
-                    {memory: {role: 'builder'}});
-                //输出刚刚执行的语句的日志记录到控制台
-                sysLog.spawnWorkStatus('home1', excLine, resCode);        
-            }
-            
-            // if(Game.spawns['home1'].spawning) { 
-            //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
-            //     Game.spawns['home1'].room.visual.text(
-            //         '🛠️' + spawningCreep.memory.role,
-            //         Game.spawns['home1'].pos.x + 1, 
-            //         Game.spawns['home1'].pos.y, 
-            //         {align: 'left', opacity: 0.8});
-            // }
-            //调整为最后统一输出当前正在创建劳工的情况
+        // console.log('Needed Builders: ' + neededBuilders);
+        //自动创建建造型劳工
+        if (builder.length < 2) {
+            var newName = 'Builder' + Game.time;
+            // console.log('Spawning new builder: ' + newName);
+            excLine = '生产建造型矿工：' + newName;
+            resCode = Game.spawns['home1'].spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], newName,
+                { memory: { role: 'builder' } });
+            //输出刚刚执行的语句的日志记录到控制台
+            sysLog.spawnWorkStatus('home1', excLine, resCode);
+        }
+
+        // if(Game.spawns['home1'].spawning) { 
+        //     var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
+        //     Game.spawns['home1'].room.visual.text(
+        //         '🛠️' + spawningCreep.memory.role,
+        //         Game.spawns['home1'].pos.x + 1, 
+        //         Game.spawns['home1'].pos.y, 
+        //         {align: 'left', opacity: 0.8});
+        // }
+        //调整为最后统一输出当前正在创建劳工的情况
         // }
     }
-    if(Game.spawns['home1'].spawning) { 
+    if (Game.spawns['home1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['home1'].spawning.name];
         Game.spawns['home1'].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
-            Game.spawns['home1'].pos.x + 1, 
-            Game.spawns['home1'].pos.y, 
-            {align: 'left', opacity: 0.8});
+            Game.spawns['home1'].pos.x + 1,
+            Game.spawns['home1'].pos.y,
+            { align: 'left', opacity: 0.8 });
     }
 
 
     //统一管理劳工当前工作
-    for(var name in Game.creeps) {
+    for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
+        if (creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
         }
-        if(creep.memory.role == 'upgrader') {
+        if (creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
         }
-        if(creep.memory.role == 'builder'){
+        if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
         }
-        if(creep.memory.role == 'containerTransfer'){
+        if (creep.memory.role == 'containerTransfer') {
             roleContainerTransfer.run(creep, 'ef990774d80108c');
+        }
+        if (creep.memory.role == 'distributor') {
+            //分发型劳工
+            roleDistributor.run(creep, '602fee0b1f4b8e0');
         }
     }
 
     //统一管理功能性建筑当前工作
     //寻找当前房间内的防御塔
     var towerID = '';
-    for(var id in Game.structures){
+    for (var id in Game.structures) {
         //console.log(Game.structures[id].structureType);
-        if(Game.structures[id].structureType == 'tower'){
+        if (Game.structures[id].structureType == 'tower') {
             //console.log("222：" + Game.structures[id].structureType);
             //console.log("222:" + id);
             towerID = id;
         }
     }
     var tower = Game.getObjectById(towerID);
-    
+
     //调用
-    if(tower){
+    if (tower) {
         constructionTower.attack(tower);
         constructionTower.repair(tower);
     }
+
+    //房间内的link管理
+    //link1：采矿点 -> 母巢点
+    constructionLink.remote('ae94edc29425f75', '602fee0b1f4b8e0');
 }

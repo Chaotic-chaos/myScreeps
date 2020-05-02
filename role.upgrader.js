@@ -29,13 +29,14 @@ var roleUpgrader = {
                     creep.say('Containering');
                 }
             }
-            else {
-                var sources = Game.getObjectById(creep.pos.findClosestByRange(FIND_SOURCES).id);
-                if (creep.harvest(sources) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources, { visualizePathStyle: { stroke: '#ff0000' } });
-                    creep.say('Mining');
-                }
-            }
+            //取消了upgrader的挖矿功能，老老实实等着人给喂饭
+            // else {
+            //     var sources = Game.getObjectById(creep.pos.findClosestByRange(FIND_SOURCES).id);
+            //     if (creep.harvest(sources) == ERR_NOT_IN_RANGE) {
+            //         creep.moveTo(sources, { visualizePathStyle: { stroke: '#ff0000' } });
+            //         creep.say('Mining');
+            //     }
+            // }
         }
 
 

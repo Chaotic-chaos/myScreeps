@@ -48,4 +48,10 @@
 2. bugFix：修改upgrader的功能部件，使之尽可能多的work，少carry, 少move
 3. newFeature：增设角色distributor，想法上是守在link旁边进行远程传送能量的分发存储工作，待完善
 
+## 2020.05.02更新
+1. newFeature：增加了建筑link的逻辑控制，目前使用ID管理，后期如果有需要在进行优化
+2. bugFix：完善了distributor角色的逻辑功能，目前实现守在spawn旁边进行能量补充
+3. waitingToFinish：人力过剩问题目前比较严重，需要解决
+4. newFeature：取消了upgrader的挖矿功能，老老实实等着人给喂饭
+
 ## To be Continue...

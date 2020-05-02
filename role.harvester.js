@@ -25,11 +25,14 @@ var roleHarvester = {
         }
         else {
             //给spawn, extension, tower充能
+            // var targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            //         filter: (structure) => {
+            //             return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            //         }
+            // });
             var targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_TOWER) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-                    }
-            });
+                filter: (structure) => structure.structureType == STRUCTURE_LINK
+        });
             if(targets){
                 //存在上述建筑，移动到相关建筑并存储能量
                 var target = Game.getObjectById(targets.id);
