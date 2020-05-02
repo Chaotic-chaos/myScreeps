@@ -17,7 +17,7 @@ var constructionLink = {
         var current = Game.getObjectById(currentID);
         var target = Game.getObjectById(targetID);
 
-        if(current.store.getFreeCapacity(RESOURCE_ENERGY) == 0){
+        if(current.store.getUsedCapacity(RESOURCE_ENERGY) > 650){
             current.transferEnergy(target);
         }
     }
