@@ -9,7 +9,7 @@ var constructionLink = require('construction.link');
 var sysLog = require('./sys.log');
 //监控数据大盘
 //失败，暂时搁置，等待后续研究
-var statusMonitor = require('sys.dataMonitor');
+var sysStatusMonitor = require('sys.dataMonitor');
 
 module.exports.loop = function () {
     //测试紧急提醒功能
@@ -17,6 +17,9 @@ module.exports.loop = function () {
 
     //新的一天
     sysLog.newDay();
+
+    //刷新大盘数据
+    sysStatusMonitor.run();
 
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
