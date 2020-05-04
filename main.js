@@ -100,7 +100,7 @@ module.exports.loop = function () {
         }
 
         //自动创建分发型劳工
-        if (distributor.length < 2) {
+        if (distributor.length < 1) {
             var newName = 'Distributor' + Game.time;
             // console.log('Spawning new upgrader: ' + newName);
             excLine = '生产分发型矿工：' + newName;
