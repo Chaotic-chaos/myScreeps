@@ -55,3 +55,5 @@
 4. newFeature：取消了upgrader的挖矿功能，老老实实等着人给喂饭
 
 ## To be Continue...
+
+[微信付款](./wxPay.png)
