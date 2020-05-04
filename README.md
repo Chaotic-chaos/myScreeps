@@ -56,4 +56,4 @@
 
 ## To be Continue...
 
-[微信付款](./wxPay.png)
+![微信付款](./wxPay.png)
