@@ -54,7 +54,7 @@ module.exports.loop = function () {
     sysLog.currentCreeps('distributor', distributor.length);
 
     //自动创建劳作型劳工
-    if (harvesters.length < 2) {
+    if (harvesters.length < 1) {
         var newName = 'Harvester' + Game.time;
         // console.log('Spawning new harvester: ' + newName);
         excLine = '生产劳作型矿工：' + newName;
@@ -75,7 +75,7 @@ module.exports.loop = function () {
     //调整为最后统一输出当前正在创建劳工的情况
 
     //只有在劳作型劳工足够的情况下再创建其他劳工
-    if (harvesters.length >= 2) {
+    if (harvesters.length >= 1) {
         //如果升级型劳工多余3个，创建剪造型劳工，否则升级型劳工
         // if(upgrader.length < 3){
         //自动创建升级型型劳工
@@ -124,7 +124,7 @@ module.exports.loop = function () {
 
         // console.log('Needed Builders: ' + neededBuilders);
         //自动创建建造型劳工
-        if (builder.length < 2) {
+        if (builder.length < 1) {
             var newName = 'Builder' + Game.time;
             // console.log('Spawning new builder: ' + newName);
             excLine = '生产建造型矿工：' + newName;
@@ -196,6 +196,12 @@ module.exports.loop = function () {
     }
 
     //房间内的link管理
-    //link1：采矿点 -> 母巢点
-    constructionLink.remote('ae94edc29425f75', '602fee0b1f4b8e0');
+    //采矿点的link摇摆发送，根据tick数的单双确定向谁发送
+    if(Game.time % 2 == 0){
+        //link1：采矿点 -> 母巢点
+        constructionLink.remote('ae94edc29425f75', '602fee0b1f4b8e0');
+    }
+    else{
+        constructionLink.remote('ae94edc29425f75', 'f03c5c53d1b9276');
+    }
 }

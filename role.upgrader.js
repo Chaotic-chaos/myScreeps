@@ -10,6 +10,7 @@ var roleUpgrader = {
             creep.memory.upgrading = true;
             creep.say('🚧 upgrade');
         }
+        
 
         if (creep.memory.upgrading) {
             if (creep.room.controller) {
@@ -20,12 +21,16 @@ var roleUpgrader = {
         }
         else {
             //寻找附近的container
-            var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure => structure.structureType == STRUCTURE_CONTAINER)});
-            if (container.store.getUsedCapacity() > 0) {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_CONTAINER || structure.id == 'f03c5c53d1b9276') && structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+                }
+            });
+            if (target) {
                 //附近存在container
-                // console.log(creep.withdraw(container))
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container, { visualizePathStyle: { stroke: '#ff0000' } });
+                // console.log(creep.withdraw(target, RESOURCE_ENERGY))
+                if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, { visualizePathStyle: { stroke: '#ff0000' } });
                     creep.say('Containering');
                 }
             }
