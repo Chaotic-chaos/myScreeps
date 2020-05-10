@@ -1,4 +1,5 @@
 # myScreeps
+![AUR last modified](https://img.shields.io/aur/last-modified/myScreeps)
 - 一份对游戏`screeps`的代码备份仓库
 
 # 说明
